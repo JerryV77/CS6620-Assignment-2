@@ -1,0 +1,19 @@
+name: Example CI - part 2
+
+on: 
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Docker Build
+      uses: docker/setup-buildx-action@v1
+    - name: Build the test image
+      run: docker build -f Dockerfile.test -t example_rest_api_test .
+    - name: Run tests
+      run: docker run example_rest_api_test
